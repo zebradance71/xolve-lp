@@ -1,8 +1,9 @@
 "use client";
 
+import type { SupabaseClient } from "@supabase/supabase-js";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,13 +20,25 @@ type LicenseRow = {
 
 export default function MyPage() {
   const router = useRouter();
-  const supabase = useMemo(() => createSupabaseBrowserClient(), []);
+  const [supabase, setSupabase] = useState<SupabaseClient | null>(null);
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState<string | null>(null);
   const [licenses, setLicenses] = useState<LicenseRow[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    queueMicrotask(() => {
+      try {
+        setSupabase(createSupabaseBrowserClient());
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "Supabase の初期化に失敗しました。");
+        setLoading(false);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!supabase) return;
     const run = async () => {
       try {
         const { data } = await supabase.auth.getSession();
@@ -59,6 +72,7 @@ export default function MyPage() {
   }, [router, supabase]);
 
   const onSignOut = async () => {
+    if (!supabase) return;
     await supabase.auth.signOut();
     router.replace("/");
     router.refresh();
@@ -94,14 +108,21 @@ export default function MyPage() {
               >
                 利用規約・免責事項
               </Link>
-              <Button type="button" variant="ghost" onClick={onSignOut} className="h-10 border border-zinc-700">
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={onSignOut}
+                disabled={!supabase}
+                className="h-10 border border-zinc-700"
+              >
                 ログアウト
               </Button>
             </div>
           </CardContent>
         </Card>
 
-        {loading ? <p className="text-sm text-zinc-500">ライセンスを確認中...</p> : null}
+        {!supabase && !error ? <p className="text-sm text-zinc-500">接続準備中...</p> : null}
+        {loading && supabase ? <p className="text-sm text-zinc-500">ライセンスを確認中...</p> : null}
         {error ? (
           <Alert className="border-red-900/70 bg-black">
             <AlertTitle className="text-red-300">取得エラー</AlertTitle>
@@ -109,7 +130,7 @@ export default function MyPage() {
           </Alert>
         ) : null}
 
-        {!loading && !error ? (
+        {supabase && !loading && !error ? (
           <div className="grid gap-4">
             {licenses.length === 0 ? (
               <Card className="border-zinc-800 bg-[#09090b]">

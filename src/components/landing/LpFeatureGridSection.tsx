@@ -12,8 +12,10 @@ export function LpFeatureGridSection() {
     <section data-animate="feature-grid" className="space-y-12">
       <div className="space-y-5 text-center">
         <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#06b6d4]">Core narrative</p>
-        <h2 className="text-3xl font-semibold tracking-tight text-zinc-100 md:text-5xl md:font-semibold">
-          現場の不安を、設計で潰す。
+        <h2 className="text-3xl font-black leading-[1.15] tracking-tight text-zinc-100 md:text-5xl md:leading-[1.12]">
+          凍結を、過去にする。
+          <br />
+          「正規分布ブレ」が生む、揺るぎない自動化。
         </h2>
         <p className="mx-auto max-w-2xl text-sm font-normal leading-relaxed text-zinc-500 md:text-base">
           TIPSで語っている3つの軸を、LPの主役に据えました。派手な演出より、余白と字の太さだけで読ませます。

@@ -3,13 +3,13 @@ import { CalendarClock, FlaskConical, Shield, ShieldCheck, Shuffle } from "lucid
 export function LpDefenseSection() {
   return (
     <section data-animate="defense" className="space-y-10">
-      <div className="space-y-5 text-center">
+      <div className="space-y-4 text-center md:space-y-5">
         <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#06b6d4]">凍結回避</p>
-        <h2 className="text-3xl font-semibold tracking-tight text-zinc-100 md:text-5xl">
-          アカウントを守り抜く、重い設計。
+        <h2 className="mx-auto w-full max-w-full whitespace-nowrap px-3 text-center font-black leading-[1.08] tracking-tight text-zinc-50 [font-size:clamp(1.35rem,5.2vw+0.75rem,4.25rem)] md:px-4">
+          その自動化は、安全か。
         </h2>
-        <p className="mx-auto max-w-2xl text-sm font-normal leading-relaxed text-zinc-500 md:text-base">
-          「自動化は便利だけど、凍結が怖い」——その前提で、派手さより先に安全を積み上げています。
+        <p className="mx-auto max-w-2xl text-sm font-normal leading-relaxed text-zinc-500 md:text-base md:leading-relaxed">
+          独自の凍結回避ロジックを搭載。xolveで、揺るぎない運用を。
         </p>
       </div>
 
