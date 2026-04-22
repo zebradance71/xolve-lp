@@ -16,7 +16,10 @@ export default function TokushohoPage() {
           <p><span className="font-semibold text-zinc-100">商品代金以外の必要料金:</span> インターネット接続に関する通信費等</p>
           <p><span className="font-semibold text-zinc-100">代金の支払方法:</span> Stripe によるクレジットカード決済</p>
           <p><span className="font-semibold text-zinc-100">代金の支払時期:</span> 購入手続き完了時に課金</p>
-          <p><span className="font-semibold text-zinc-100">商品の引渡時期:</span> 決済完了後、マイページ上でライセンスキー・アプリ導線・セットアップ手順を提供</p>
+          <p>
+            <span className="font-semibold text-zinc-100">商品の引渡時期:</span>{" "}
+            決済完了後、所定の会員登録・ログインのうえマイページへアクセスいただいた場合に、ライセンスキーおよびアプリのダウンロード用リンクを提供します。利用条件等の掲示は当サイト内の所定ページにて行います。
+          </p>
         </div>
         <div className="space-y-2 rounded-xl border border-zinc-800 bg-[#09090b] p-4 text-sm text-zinc-300">
           <p className="font-semibold text-zinc-100">返品・キャンセル規約</p>
@@ -24,7 +27,7 @@ export default function TokushohoPage() {
           <p>デジタルコンテンツの性質上、決済完了後の返金・キャンセルはお受けしておりません。</p>
           <p>※買い切りライセンス販売のため、月額サブスクリプションの定期請求はありません。</p>
           <p className="pt-2 font-semibold text-zinc-100">＜不良品・不具合等の対応＞</p>
-          <p>サービスが正常に利用できない等の不具合がある場合は、上記メールアドレスまたはお問い合わせフォームよりご連絡ください。内容を確認の上、適切に対応いたします。</p>
+          <p>サービスが正常に利用できない等の不具合がある場合は、上記メールアドレスよりご連絡ください。内容を確認の上、適切に対応いたします。</p>
         </div>
         <Link href="/" className="text-sm underline underline-offset-4 text-zinc-300">
           HOMEへ戻る

@@ -49,10 +49,10 @@ export function LpTipsSection() {
             </p>
           </li>
         </ol>
-        <p className="mt-12 border-t border-zinc-900 pt-8 text-xs font-normal leading-relaxed text-zinc-600">
-          ※ CSV作成の負荷を下げる「xolve専用・高機能Excelテンプレート」を標準同梱。
-        </p>
       </div>
+      <p className="mt-12 w-full border-t border-zinc-900 pt-8 text-center text-sm font-normal leading-relaxed text-zinc-100 md:text-left md:text-base">
+        ※ CSV作成の負荷を下げる「xolve専用・高機能Excelテンプレート」を標準同梱。
+      </p>
     </section>
   );
 }
