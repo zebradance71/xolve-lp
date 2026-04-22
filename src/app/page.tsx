@@ -22,8 +22,6 @@ export default function Home() {
         <LpDefenseSection />
         <LpTipsSection />
         <LpPricingSection
-          consentByPlan={purchase.consentByPlan}
-          setPlanConsent={purchase.setPlanConsent}
           agreeTerms={purchase.agreeTerms}
           setAgreeTerms={purchase.setAgreeTerms}
           agreeDisclaimer={purchase.agreeDisclaimer}

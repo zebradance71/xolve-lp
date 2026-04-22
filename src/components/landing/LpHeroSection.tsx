@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -8,6 +9,15 @@ type LpHeroSectionProps = {
 export function LpHeroSection({ onScrollToPurchase }: LpHeroSectionProps) {
   return (
     <section data-animate="hero" className="space-y-8 text-center">
+      <div className="flex justify-end">
+        <Link
+          href="/mypage"
+          className="inline-flex h-10 items-center justify-center rounded-xl border border-zinc-700 px-5 text-sm font-semibold text-zinc-200 transition hover:border-[#06b6d4]/60 hover:text-white"
+        >
+          マイページ
+        </Link>
+      </div>
+
       <div className="space-y-7">
         <div className="flex flex-wrap items-center justify-center gap-2">
           <Badge className="border-zinc-800 bg-black px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#06b6d4]">
@@ -40,10 +50,9 @@ export function LpHeroSection({ onScrollToPurchase }: LpHeroSectionProps) {
 
       <div className="relative mx-auto w-full max-w-5xl">
         <div className="relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 p-2 shadow-[0_40px_100px_rgba(0,0,0,0.65)]">
-          {/* 実スクショは PNG を同パスに置き、src を app-ui.png に変更 */}
           <img
-            src="/images/app-ui.svg"
-            alt="xolve アプリUI（プレースホルダー）"
+            src="/images/app-ui.png"
+            alt="xolve アプリUI"
             width={1365}
             height={768}
             className="h-auto w-full rounded-xl"
@@ -51,12 +60,9 @@ export function LpHeroSection({ onScrollToPurchase }: LpHeroSectionProps) {
             fetchPriority="high"
           />
         </div>
-        <p className="mt-3 text-xs text-zinc-500">
-          本番用のキャプチャは `lp-web/public/images/app-ui.png` に配置し、上の `src` を `/images/app-ui.png` に差し替えてください。
-        </p>
       </div>
 
-      <div className="flex items-center justify-center">
+      <div className="flex flex-wrap items-center justify-center gap-3">
         <Button
           type="button"
           onClick={onScrollToPurchase}

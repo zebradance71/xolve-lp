@@ -5,11 +5,6 @@ import type { PlanId } from "./landingTypes";
 import { TERMS_VERSION } from "./landingTypes";
 
 export function useLandingPurchase() {
-  const [consentByPlan, setConsentByPlan] = useState<Record<PlanId, boolean>>({
-    STANDARD: false,
-    PRO: false,
-    PREMIUM: false,
-  });
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [agreeDisclaimer, setAgreeDisclaimer] = useState(false);
   const [activeCheckoutPlan, setActiveCheckoutPlan] = useState<PlanId | null>(null);
@@ -17,28 +12,21 @@ export function useLandingPurchase() {
 
   const canGlobalPurchase = useMemo(() => agreeTerms && agreeDisclaimer, [agreeTerms, agreeDisclaimer]);
 
-  const checkoutBaseUrl = useMemo(() => {
-    const raw = process.env.NEXT_PUBLIC_SUPABASE_FUNCTIONS_BASE_URL ?? "/functions/v1";
-    return raw.replace(/\/$/, "");
-  }, []);
-
-  const setPlanConsent = (plan: PlanId, value: boolean) => {
-    setConsentByPlan((prev) => ({ ...prev, [plan]: value }));
-  };
+  const checkoutSessionUrl = useMemo(() => "/api/checkout-session", []);
 
   const scrollToPurchase = () => {
     document.getElementById("purchase")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const startCheckout = async (plan: PlanId) => {
-    if (!canGlobalPurchase || !consentByPlan[plan]) {
-      setCheckoutError("購入前に、プラン同意と利用規約・免責事項への同意を完了してください。");
+    if (!canGlobalPurchase) {
+      setCheckoutError("購入前に、利用規約・免責事項への同意を完了してください。");
       return;
     }
     setCheckoutError(null);
     setActiveCheckoutPlan(plan);
     try {
-      const response = await fetch(`${checkoutBaseUrl}/stripe-create-checkout-session`, {
+      const response = await fetch(checkoutSessionUrl, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
@@ -51,9 +39,17 @@ export function useLandingPurchase() {
           },
         }),
       });
-      const payload = (await response.json()) as
-        | { ok?: boolean; checkoutUrl?: string; message?: string }
-        | undefined;
+
+      const rawBody = await response.text();
+      let payload: { ok?: boolean; checkoutUrl?: string; message?: string } | undefined;
+      try {
+        payload = rawBody ? (JSON.parse(rawBody) as typeof payload) : undefined;
+      } catch {
+        throw new Error(
+          `サーバーが JSON 以外を返しました（HTTP ${response.status}）。URL が Next のページになっていないか、Functions の URL / anon キーを確認してください。`
+        );
+      }
+
       if (!response.ok || !payload?.ok || !payload.checkoutUrl) {
         throw new Error(payload?.message || "チェックアウトURLの取得に失敗しました。");
       }
@@ -66,8 +62,6 @@ export function useLandingPurchase() {
   };
 
   return {
-    consentByPlan,
-    setPlanConsent,
     agreeTerms,
     setAgreeTerms,
     agreeDisclaimer,
