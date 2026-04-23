@@ -1,6 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
-import { FormEvent, useCallback, useEffect, useState } from "react";
+import { FormEvent, startTransition, useCallback, useEffect, useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabaseBrowser";
 
 export type AuthPageClientInput = {
@@ -8,6 +8,47 @@ export type AuthPageClientInput = {
   initialMode?: "signup" | "login";
   initialEmail?: string;
 };
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function readUrlEmail(): string {
+  if (typeof window === "undefined") return "";
+  const q = new URLSearchParams(window.location.search);
+  const urlEmail = q.get("email")?.trim() ?? "";
+  return urlEmail && EMAIL_RE.test(urlEmail) ? urlEmail : "";
+}
+
+function readStripeSessionId(): string {
+  if (typeof window === "undefined") return "";
+  const sid = new URLSearchParams(window.location.search).get("session_id")?.trim() ?? "";
+  if (sid.startsWith("cs_live_") || sid.startsWith("cs_test_")) return sid;
+  return "";
+}
+
+/** Supabase メール確認・PKCE コールバックの `#access_token=...` から JWT の email を取り出す */
+function readEmailFromAuthCallbackHash(): string {
+  if (typeof window === "undefined") return "";
+  const raw = window.location.hash.replace(/^#/, "");
+  if (!raw) return "";
+  const params = new URLSearchParams(raw);
+  const token = params.get("access_token");
+  if (!token) return "";
+  try {
+    const payloadB64 = token.split(".")[1];
+    if (!payloadB64) return "";
+    const b64 = payloadB64.replace(/-/g, "+").replace(/_/g, "/");
+    const pad = b64.length % 4 === 0 ? "" : "=".repeat(4 - (b64.length % 4));
+    const json = JSON.parse(atob(b64 + pad)) as { email?: string };
+    const email = json.email?.trim() ?? "";
+    return email && EMAIL_RE.test(email) ? email : "";
+  } catch {
+    return "";
+  }
+}
+
+function mergeEmailIfEmpty(prev: string, incoming: string): string {
+  return prev.trim() ? prev : incoming;
+}
 
 export function useAuthPageClient({
   nextPath = "/mypage",
@@ -18,7 +59,7 @@ export function useAuthPageClient({
   const [supabase, setSupabase] = useState<SupabaseClient | null>(null);
   const isLoginMode = initialMode === "login";
 
-  const [email, setEmail] = useState(initialEmail);
+  const [email, setEmail] = useState(() => initialEmail.trim());
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
@@ -62,6 +103,78 @@ export function useAuthPageClient({
     return () => subscription.unsubscribe();
   }, [supabase]);
 
+  /** メール確認後など、URL 処理済みセッションからメールを補完（ログイン画面の自動入力） */
+  useEffect(() => {
+    if (!supabase) return;
+    void supabase.auth.getSession().then(({ data: { session } }) => {
+      const u = session?.user?.email?.trim() ?? "";
+      if (!u || !EMAIL_RE.test(u)) return;
+      startTransition(() => {
+        setEmail((prev) => mergeEmailIfEmpty(prev, u));
+      });
+    });
+  }, [supabase]);
+
+  /** RSC の searchParams が空で届くケースの補正（同期 setState を避けるため transition へ） */
+  useEffect(() => {
+    const trimmed = initialEmail.trim();
+    if (!trimmed) return;
+    startTransition(() => {
+      setEmail((prev) => mergeEmailIfEmpty(prev, trimmed));
+    });
+  }, [initialEmail]);
+
+  /** URL の email / ハッシュ内 access_token / Stripe session からの補完 */
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const hashEmail = readEmailFromAuthCallbackHash();
+    if (hashEmail) {
+      startTransition(() => {
+        setEmail((prev) => mergeEmailIfEmpty(prev, hashEmail));
+      });
+    }
+
+    const urlEmail = readUrlEmail();
+    if (urlEmail) {
+      startTransition(() => {
+        setEmail((prev) => mergeEmailIfEmpty(prev, urlEmail));
+      });
+    }
+
+    const sid = readStripeSessionId();
+    if (!sid) return;
+
+    let cancelled = false;
+    const delays = [0, 1500, 3200];
+
+    const run = async () => {
+      for (const d of delays) {
+        if (cancelled) return;
+        if (d > 0) await new Promise((r) => setTimeout(r, d));
+        if (cancelled) return;
+        try {
+          const res = await fetch(`/api/purchaser-email?session_id=${encodeURIComponent(sid)}`);
+          const data = (await res.json()) as { email?: string | null };
+          const resolved = data.email?.trim();
+          if (resolved) {
+            startTransition(() => {
+              setEmail((prev) => mergeEmailIfEmpty(prev, resolved));
+            });
+            return;
+          }
+        } catch {
+          /* 次のリトライへ */
+        }
+      }
+    };
+
+    void run();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const onSignUp = useCallback(
     async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -70,7 +183,7 @@ export function useAuthPageClient({
       setNotice(null);
       setError(null);
       try {
-        const { error: signUpError } = await supabase.auth.signUp({
+        const { data, error: signUpError } = await supabase.auth.signUp({
           email: email.trim(),
           password,
           options: {
@@ -78,6 +191,12 @@ export function useAuthPageClient({
           },
         });
         if (signUpError) throw signUpError;
+        if (!data.user) {
+          setError(
+            "このメールアドレスでは新規登録を完了できませんでした。すでに登録済みの可能性があります。下のフォームからログインするか、パスワード再設定を試してください。"
+          );
+          return;
+        }
         setNotice(
           "登録を受け付けました。Supabase Auth から届く確認メールのリンクを開いて認証してください。認証後にマイページへ進めます。"
         );

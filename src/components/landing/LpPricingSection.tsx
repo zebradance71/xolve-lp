@@ -91,40 +91,45 @@ export function LpPricingSection({
         </Card>
       </div>
 
-      <Card className="border-zinc-800 bg-[#09090b]">
-        <CardContent className="space-y-4 p-6">
-          <div className="flex flex-wrap gap-3 text-sm underline underline-offset-4">
-            <Link href="/legal">利用規約・免責事項</Link>
-            <Link href="/privacy-policy">プライバシーポリシー</Link>
-            <Link href="/tokushoho">特商法表記</Link>
-          </div>
+      <div className="mx-auto w-full max-w-xl px-0">
+        <Card className="border-zinc-800 bg-[#09090b] shadow-none">
+          <CardContent className="space-y-5 p-6 sm:p-7">
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center text-sm underline underline-offset-4">
+              <Link href="/legal">利用規約・免責事項</Link>
+              <Link href="/privacy-policy">プライバシーポリシー</Link>
+              <Link href="/tokushoho">特商法表記</Link>
+            </div>
 
-          <label className="flex items-center gap-2 text-sm">
-            <Checkbox
-              checked={agreeTerms && agreeDisclaimer}
-              onCheckedChange={(v) => {
-                const checked = v === true;
-                setAgreeTerms(checked);
-                setAgreeDisclaimer(checked);
-              }}
-            />
-            <Label>利用規約・免責事項に同意する</Label>
-          </label>
+            <label className="flex cursor-pointer items-start justify-center gap-2.5 text-sm sm:items-center">
+              <Checkbox
+                className="mt-0.5 sm:mt-0"
+                checked={agreeTerms && agreeDisclaimer}
+                onCheckedChange={(v) => {
+                  const checked = v === true;
+                  setAgreeTerms(checked);
+                  setAgreeDisclaimer(checked);
+                }}
+              />
+              <Label className="text-left leading-snug sm:text-center">利用規約・免責事項に同意する</Label>
+            </label>
 
-          {!canGlobalPurchase ? (
-            <Alert className="border-zinc-800 bg-black">
-              <AlertTitle>同意が必要です</AlertTitle>
-              <AlertDescription>購入前に利用規約・免責事項への同意が必要です。</AlertDescription>
-            </Alert>
-          ) : null}
-          {checkoutError ? (
-            <Alert className="border-red-900/70 bg-black">
-              <AlertTitle className="text-red-300">チェックアウトを開始できませんでした</AlertTitle>
-              <AlertDescription className="text-red-200/80">{checkoutError}</AlertDescription>
-            </Alert>
-          ) : null}
-        </CardContent>
-      </Card>
+            {!canGlobalPurchase ? (
+              <Alert className="border-zinc-800 bg-black text-center">
+                <AlertTitle className="text-center">同意が必要です</AlertTitle>
+                <AlertDescription className="text-center text-zinc-400">
+                  購入前に利用規約・免責事項への同意が必要です。
+                </AlertDescription>
+              </Alert>
+            ) : null}
+            {checkoutError ? (
+              <Alert className="border-red-900/70 bg-black text-center">
+                <AlertTitle className="text-center text-red-300">チェックアウトを開始できませんでした</AlertTitle>
+                <AlertDescription className="text-center text-red-200/80">{checkoutError}</AlertDescription>
+              </Alert>
+            ) : null}
+          </CardContent>
+        </Card>
+      </div>
     </section>
   );
 }

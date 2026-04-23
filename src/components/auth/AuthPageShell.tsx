@@ -128,7 +128,9 @@ export function AuthPageShell({
                     className="border-zinc-700 bg-black text-zinc-100"
                   />
                   {!isLoginMode && initialEmail ? (
-                    <p className="text-xs text-zinc-500">Stripe決済時のメールアドレスを自動入力しています。</p>
+                    <p className="text-xs text-zinc-500">
+                      Stripe 購入時に入力したメールアドレスを表示しています。ライセンスと紐づくため、原則としてこのまま登録してください。
+                    </p>
                   ) : null}
                 </div>
                 <div className="space-y-2">
