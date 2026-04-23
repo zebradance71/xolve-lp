@@ -118,6 +118,31 @@ export default function MyPage() {
                 ログアウト
               </Button>
             </div>
+
+            <div className="space-y-4 border-t border-zinc-800 pt-4 text-sm leading-relaxed text-zinc-400">
+              <div className="space-y-2">
+                <p className="font-semibold text-zinc-200">【ダウンロード時のご注意】</p>
+                <p>
+                  リンクをクリックすると「ファイルをプレビューできませんでした」と表示されますが、製品の容量が大きいための仕様です。
+                </p>
+                <p>
+                  画面中央の<strong className="text-zinc-200">「ダウンロード」ボタン</strong>
+                  を押して保存してください。 ※Googleドライブによるウイルススキャン警告が出た場合も、そのまま「ダウンロード」を続行して問題ありません。
+                </p>
+              </div>
+              <div className="space-y-2">
+                <p className="font-semibold text-zinc-200">同梱物（入手パッケージ内）</p>
+                <p className="text-xs text-zinc-500">
+                  本体とあわせて、次のファイル・ドキュメントが同梱されています（ZIP 内の構成は配布版により同内容です）。
+                </p>
+                <ul className="list-inside list-disc space-y-1 text-zinc-300">
+                  <li>専用Excelテンプレート</li>
+                  <li>クイックスタートガイド（PDF）</li>
+                  <li>API導入・接続マニュアル（PDF）</li>
+                  <li>トラブルシューティング簡易版（PDF）</li>
+                </ul>
+              </div>
+            </div>
           </CardContent>
         </Card>
 
