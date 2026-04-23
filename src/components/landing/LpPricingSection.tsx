@@ -98,6 +98,13 @@ export function LpPricingSection({
               <Link href="/legal">利用規約・免責事項</Link>
               <Link href="/privacy-policy">プライバシーポリシー</Link>
               <Link href="/tokushoho">特商法表記</Link>
+              <a
+                href="https://zebradance71.github.io/xolve-manual/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                📄公式説明
+              </a>
             </div>
 
             <label className="flex cursor-pointer items-start justify-center gap-2.5 text-sm sm:items-center">
