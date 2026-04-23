@@ -5,7 +5,7 @@ export function LpDefenseSection() {
     <section data-animate="defense" className="space-y-10">
       <div className="space-y-4 text-center md:space-y-5">
         <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#06b6d4]">凍結回避</p>
-        <h2 className="mx-auto w-full max-w-full whitespace-nowrap px-3 text-center font-black leading-[1.08] tracking-tight text-zinc-50 [font-size:clamp(1.35rem,5.2vw+0.75rem,4.25rem)] md:px-4">
+        <h2 className="mx-auto w-full max-w-full px-3 text-center font-black leading-[1.12] tracking-tight text-zinc-50 [font-size:clamp(1.35rem,5.2vw+0.75rem,4.25rem)] md:px-4 md:leading-[1.08] lg:whitespace-nowrap">
           その自動化は、安全か。
         </h2>
         <p className="mx-auto max-w-2xl text-sm font-normal leading-relaxed text-zinc-500 md:text-base md:leading-relaxed">

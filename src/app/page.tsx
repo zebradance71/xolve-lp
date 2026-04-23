@@ -11,12 +11,12 @@ export default function Home() {
   const purchase = useLandingPurchase();
 
   return (
-    <main className="min-h-screen bg-[#000000] font-sans tracking-tight text-zinc-100">
+    <main className="min-h-screen min-w-0 overflow-x-hidden bg-[#000000] font-sans tracking-tight text-zinc-100">
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute left-1/2 top-[-160px] h-[360px] w-[360px] -translate-x-1/2 rounded-full bg-[#06b6d4]/[0.04] blur-3xl" />
       </div>
 
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-24 px-4 py-14 md:px-8 md:py-20">
+      <div className="mx-auto flex min-w-0 w-full max-w-6xl flex-col gap-24 px-4 py-14 md:px-8 md:py-20">
         <LpHeroSection onScrollToPurchase={purchase.scrollToPurchase} />
         <LpFeatureGridSection />
         <LpDefenseSection />

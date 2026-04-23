@@ -33,9 +33,9 @@ export function LpHeroSection({ onScrollToPurchase }: LpHeroSectionProps) {
 
         <h1 className="mx-auto flex w-full max-w-5xl flex-col items-center gap-1 font-black tracking-tight md:gap-2">
           <span className="text-center text-5xl leading-[1.02] md:text-7xl">凍結を、過去にする。</span>
-          <span className="mx-auto inline-flex max-w-full flex-nowrap items-center justify-center gap-x-1.5 whitespace-nowrap px-2 text-center leading-none text-zinc-100 [font-size:clamp(1rem,5.5vw+0.65rem,3.75rem)] md:gap-x-2 md:px-3">
-            <span className="shrink-0 translate-y-[0.02em]">「正規分布ブレ」</span>
-            <span className="shrink-0 text-[0.84em] leading-[1.12] md:text-[0.88em] md:leading-[1.14]">が生む、揺るぎない自動化。</span>
+          <span className="mx-auto flex max-w-full flex-wrap items-center justify-center gap-x-1.5 gap-y-1 px-2 text-center leading-[1.12] text-zinc-100 [font-size:clamp(1rem,5.5vw+0.65rem,3.75rem)] md:gap-x-2 md:gap-y-0 md:px-3 md:leading-none lg:flex-nowrap lg:whitespace-nowrap">
+            <span className="translate-y-[0.02em]">「正規分布ブレ」</span>
+            <span className="text-[0.84em] leading-[1.12] md:text-[0.88em] md:leading-[1.14]">が生む、揺るぎない自動化。</span>
           </span>
         </h1>
 
