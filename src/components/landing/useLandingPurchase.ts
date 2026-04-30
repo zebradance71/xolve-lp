@@ -4,25 +4,34 @@ import { useMemo, useState } from "react";
 import type { PlanId } from "./landingTypes";
 import { TERMS_VERSION } from "./landingTypes";
 
+const CONSENT_NOTICE =
+  "購入前に、ページ下部の「利用規約・免責事項に同意する」にチェックを入れてください。";
+
 export function useLandingPurchase() {
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [agreeDisclaimer, setAgreeDisclaimer] = useState(false);
   const [activeCheckoutPlan, setActiveCheckoutPlan] = useState<PlanId | null>(null);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
+  const [consentNotice, setConsentNotice] = useState<string | null>(null);
 
   const canGlobalPurchase = useMemo(() => agreeTerms && agreeDisclaimer, [agreeTerms, agreeDisclaimer]);
 
   const checkoutSessionUrl = useMemo(() => "/api/checkout-session", []);
 
-  const scrollToPurchase = () => {
-    document.getElementById("purchase")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+  const clearConsentNotice = () => setConsentNotice(null);
 
   const startCheckout = async (plan: PlanId) => {
     if (!canGlobalPurchase) {
-      setCheckoutError("購入前に、利用規約・免責事項への同意を完了してください。");
+      setCheckoutError(null);
+      setConsentNotice(CONSENT_NOTICE);
+      if (typeof document !== "undefined") {
+        requestAnimationFrame(() => {
+          document.getElementById("purchase-consent")?.scrollIntoView({ behavior: "smooth", block: "center" });
+        });
+      }
       return;
     }
+    setConsentNotice(null);
     setCheckoutError(null);
     setActiveCheckoutPlan(plan);
     try {
@@ -69,7 +78,8 @@ export function useLandingPurchase() {
     canGlobalPurchase,
     activeCheckoutPlan,
     checkoutError,
-    scrollToPurchase,
+    consentNotice,
+    clearConsentNotice,
     startCheckout,
   };
 }

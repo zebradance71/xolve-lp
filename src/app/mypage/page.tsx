@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { LpShell } from "@/components/landing/LpShell";
 import { createSupabaseBrowserClient } from "@/lib/supabaseBrowser";
 
 type LicenseRow = {
@@ -79,17 +80,17 @@ export default function MyPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#000000] px-4 py-16 text-zinc-100 md:px-8 md:py-24">
+    <LpShell className="mx-auto w-full max-w-6xl px-4 py-16 md:px-8 md:py-24">
       <div className="mx-auto w-full max-w-3xl space-y-6">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#06b6d4]">My Page</p>
-        <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">購入ライセンス</h1>
-        <p className="text-sm leading-relaxed text-zinc-500">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#00C2D1]">My Page</p>
+        <h1 className="text-3xl font-bold tracking-tight text-white md:text-4xl">購入ライセンス</h1>
+        <p className="text-sm leading-relaxed text-zinc-400">
           Stripe購入時と同じメールアドレスで一致したライセンスのみ表示しています。
         </p>
 
-        <Card className="border-zinc-800 bg-[#09090b]">
+        <Card className="border-white/[0.06] bg-[#061525]/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
           <CardHeader>
-            <CardTitle>アカウント情報</CardTitle>
+            <CardTitle className="text-zinc-100">アカウント情報</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <p className="text-sm text-zinc-300">ログイン中: {email ?? "-"}</p>
@@ -98,13 +99,13 @@ export default function MyPage() {
                 href="https://drive.google.com/file/d/1j4PhGNjvtM9iIXfopcCmaBQP1M9N1zX2/view?usp=drive_link"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-10 items-center justify-center rounded-lg bg-[#06b6d4] px-4 text-sm font-bold text-black hover:bg-[#22d3ee]"
+                className="inline-flex h-10 items-center justify-center rounded-lg bg-[#00C2D1] px-4 text-sm font-bold text-[#000B18] shadow-[0_0_20px_rgba(0,194,209,0.25)] hover:bg-[#3fe8f5]"
               >
                 アプリをダウンロード
               </a>
               <Link
                 href="/legal"
-                className="inline-flex h-10 items-center justify-center rounded-lg border border-zinc-700 px-4 text-sm hover:border-[#06b6d4]/60"
+                className="inline-flex h-10 items-center justify-center rounded-lg border border-white/15 px-4 text-sm text-zinc-200 transition hover:border-[#00C2D1]/50"
               >
                 利用規約・免責事項
               </Link>
@@ -113,13 +114,13 @@ export default function MyPage() {
                 variant="ghost"
                 onClick={onSignOut}
                 disabled={!supabase}
-                className="h-10 border border-zinc-700"
+                className="h-10 border border-white/15"
               >
                 ログアウト
               </Button>
             </div>
 
-            <div className="space-y-4 border-t border-zinc-800 pt-4 text-sm leading-relaxed text-zinc-400">
+            <div className="space-y-4 border-t border-white/[0.06] pt-4 text-sm leading-relaxed text-zinc-400">
               <div className="space-y-2">
                 <p className="font-semibold text-zinc-200">【ダウンロード時のご注意】</p>
                 <p>
@@ -132,7 +133,7 @@ export default function MyPage() {
               </div>
               <div className="space-y-2">
                 <p className="font-semibold text-zinc-200">同梱物（入手パッケージ内）</p>
-                <p className="text-xs text-zinc-500">
+                <p className="text-xs text-zinc-400">
                   本体とあわせて、次のファイル・ドキュメントが同梱されています（ZIP 内の構成は配布版により同内容です）。
                 </p>
                 <ul className="list-inside list-disc space-y-1 text-zinc-300">
@@ -146,10 +147,10 @@ export default function MyPage() {
           </CardContent>
         </Card>
 
-        {!supabase && !error ? <p className="text-sm text-zinc-500">接続準備中...</p> : null}
-        {loading && supabase ? <p className="text-sm text-zinc-500">ライセンスを確認中...</p> : null}
+        {!supabase && !error ? <p className="text-sm text-zinc-400">接続準備中...</p> : null}
+        {loading && supabase ? <p className="text-sm text-zinc-400">ライセンスを確認中...</p> : null}
         {error ? (
-          <Alert className="border-red-900/70 bg-black">
+          <Alert className="border-red-900/70 bg-[#000B18]/80">
             <AlertTitle className="text-red-300">取得エラー</AlertTitle>
             <AlertDescription className="text-red-200/80">{error}</AlertDescription>
           </Alert>
@@ -158,23 +159,23 @@ export default function MyPage() {
         {supabase && !loading && !error ? (
           <div className="grid gap-4">
             {licenses.length === 0 ? (
-              <Card className="border-zinc-800 bg-[#09090b]">
+              <Card className="border-white/[0.06] bg-[#061525]/90">
                 <CardContent className="space-y-2 p-6">
                   <p className="text-sm text-zinc-300">一致するライセンスが見つかりませんでした。</p>
-                  <p className="text-xs text-zinc-500">
+                  <p className="text-xs text-zinc-400">
                     購入メールとログインメールが異なる場合は、サポート窓口から照合依頼をお願いします。
                   </p>
                 </CardContent>
               </Card>
             ) : (
               licenses.map((item) => (
-                <Card key={item.license_key} className="border-zinc-800 bg-[#09090b]">
+                <Card key={item.license_key} className="border-white/[0.06] bg-[#061525]/90">
                   <CardContent className="space-y-3 p-6">
-                    <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">{item.plan_type}</p>
+                    <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">{item.plan_type}</p>
                     <p className="text-xs text-zinc-400">ライセンスキー</p>
-                    <p className="font-mono text-lg text-[#06b6d4]">{item.license_key}</p>
+                    <p className="font-mono text-lg text-[#00C2D1]">{item.license_key}</p>
                     <p className="text-sm text-zinc-300">ステータス: {item.status}</p>
-                    <p className="text-xs text-zinc-500">
+                    <p className="text-xs text-zinc-400">
                       発行日: {new Date(item.issued_at).toLocaleString("ja-JP")} / 最大端末: {item.max_devices}
                     </p>
                   </CardContent>
@@ -187,12 +188,12 @@ export default function MyPage() {
         <div className="pt-2">
           <Link
             href="/"
-            className="inline-flex h-10 items-center justify-center rounded-lg border border-zinc-700 px-4 text-sm hover:border-[#06b6d4]/60"
+            className="inline-flex h-10 items-center justify-center rounded-lg border border-white/15 px-4 text-sm text-zinc-200 transition hover:border-[#00C2D1]/50 hover:text-white"
           >
             HOMEへ戻る
           </Link>
         </div>
       </div>
-    </main>
+    </LpShell>
   );
 }

@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-full min-w-0 overflow-x-hidden flex flex-col bg-[#000000] text-zinc-100">
+      <body className="min-h-full min-w-0 overflow-x-hidden flex flex-col bg-[#000B18] text-zinc-100">
         <SupabaseAuthFragmentRedirect />
         {children}
         <Analytics />

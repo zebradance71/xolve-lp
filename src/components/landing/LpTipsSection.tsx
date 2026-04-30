@@ -1,57 +1,69 @@
+import { Bot, ChevronDown, ChevronRight, LineChart, UserRound } from "lucide-react";
+import { Fragment } from "react";
+import { LpSectionEyebrow } from "@/components/landing/LpSectionEyebrow";
+
+const steps = [
+  {
+    icon: UserRound,
+    title: "セットアップ",
+    body: "アカウント連携と、使う機能だけをオン。最初はシミュレーションからでもOK。",
+  },
+  {
+    icon: Bot,
+    title: "自動運転",
+    body: "予約投稿や自動運用を回しつつ、上限と間隔はアプリが見張ります。",
+  },
+  {
+    icon: LineChart,
+    title: "たまに確認",
+    body: "ログとキューを眺め、必要なときだけ手を入れる。運用の主導権はあなたに。",
+  },
+] as const;
+
+const stepCardClass =
+  "flex w-full min-w-0 max-w-md flex-1 flex-col rounded-2xl border border-white/[0.06] bg-[#061525]/90 px-5 py-7 text-center md:max-w-[280px] md:px-6 md:py-8";
+
 export function LpTipsSection() {
   return (
-    <section data-animate="tips" className="space-y-16 pb-4">
-      <div className="space-y-5 text-center md:text-left">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#06b6d4]">導入後の未来</p>
-        <h2 className="text-3xl font-semibold tracking-tight text-zinc-100 md:text-5xl">
-          xolveが変える、あなたの24時間。
+    <section id="cases" data-animate="tips" className="space-y-12 scroll-mt-24 pb-4 md:scroll-mt-28">
+      <div className="space-y-5 text-center">
+        <LpSectionEyebrow label="HOW IT WORKS" />
+        <h2 className="text-3xl font-black tracking-tight text-zinc-100 md:text-4xl">
+          使い方は、かんたん3ステップ。
         </h2>
-        <p className="mx-auto max-w-xl text-sm font-normal leading-relaxed text-zinc-500 md:mx-0 md:text-base">
-          週末の1時間で来週1週間分を仕込み。平日は短い確認だけ。余白を活かしたタイムラインで、リズムだけを置きます。
+        <p className="mx-auto max-w-2xl text-sm leading-relaxed text-zinc-400 md:text-base">
+          難しい設定の羅列ではなく、はじめてでも迷わない流れにしています。
         </p>
       </div>
 
-      <div className="mx-auto max-w-xl md:mx-0 md:max-w-2xl">
-        <ol className="relative m-0 list-none p-0">
-          <li className="relative pb-16 pl-10 md:pb-20 md:pl-14">
-            <span
-              className="absolute left-[5px] top-2 h-2.5 w-2.5 rounded-full border-2 border-[#06b6d4] bg-[#000000] md:left-[7px]"
-              aria-hidden
-            />
-            <span className="absolute left-[8px] top-5 bottom-0 w-px bg-zinc-800 md:left-3" aria-hidden />
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#06b6d4]">土曜日</p>
-            <p className="mt-3 text-xl font-semibold tracking-tight text-zinc-100 md:text-2xl">仕込み</p>
-            <p className="mt-4 text-base font-normal leading-relaxed text-zinc-500">
-              スプレッドシートで来週の動画投稿用CSVを作成。xolveへインポートし、正規分布ジッター付きで予約を完了。
-            </p>
-          </li>
-          <li className="relative pb-16 pl-10 md:pb-20 md:pl-14">
-            <span
-              className="absolute left-[5px] top-2 h-2.5 w-2.5 rounded-full border-2 border-[#06b6d4] bg-[#000000] md:left-[7px]"
-              aria-hidden
-            />
-            <span className="absolute left-[8px] top-5 bottom-0 w-px bg-zinc-800 md:left-3" aria-hidden />
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#06b6d4]">日曜日</p>
-            <p className="mt-3 text-xl font-semibold tracking-tight text-zinc-100 md:text-2xl">検証</p>
-            <p className="mt-4 text-base font-normal leading-relaxed text-zinc-500">
-              自動運用の設定を整え、モックモードで挙動を確認。API消費ゼロで、不安を先に落とします。
-            </p>
-          </li>
-          <li className="relative pl-10 md:pl-14">
-            <span
-              className="absolute left-[5px] top-2 h-2.5 w-2.5 rounded-full border-2 border-[#06b6d4] bg-[#000000] md:left-[7px]"
-              aria-hidden
-            />
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#06b6d4]">平日</p>
-            <p className="mt-3 text-xl font-semibold tracking-tight text-zinc-100 md:text-2xl">5分の確認</p>
-            <p className="mt-4 text-base font-normal leading-relaxed text-zinc-500">
-              仕事のあとにアプリを開き、溜まった検索キューの下書きを確認して送信するだけ。freezeGuardが上限を見張り、出しすぎのストレスから解放します。
-            </p>
-          </li>
-        </ol>
+      <div className="flex flex-col items-center gap-4 md:flex-row md:items-stretch md:justify-center md:gap-2 lg:gap-4">
+        {steps.map(({ icon: Icon, title, body }, i) => (
+          <Fragment key={title}>
+            {i > 0 ? (
+              <div
+                className="flex h-8 shrink-0 items-center justify-center text-[#00C2D1] md:h-auto md:px-1"
+                aria-hidden
+              >
+                <ChevronDown className="size-6 md:hidden" />
+                <ChevronRight className="hidden size-7 md:block" />
+              </div>
+            ) : null}
+            <div className={stepCardClass}>
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-[#00C2D1]/35 bg-[#000B18]/80">
+                <Icon className="h-6 w-6 text-[#00C2D1]" strokeWidth={1.75} aria-hidden />
+              </div>
+              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-[#00C2D1]">
+                STEP {i + 1}
+              </p>
+              <p className="mt-2 text-lg font-bold text-zinc-100">{title}</p>
+              <p className="mt-3 text-sm leading-relaxed text-zinc-400">{body}</p>
+            </div>
+          </Fragment>
+        ))}
       </div>
-      <p className="mt-12 w-full border-t border-zinc-900 pt-8 text-center text-sm font-normal leading-relaxed text-zinc-100 md:text-left md:text-base">
-        ※ CSV作成の負荷を下げる「xolve専用・高機能Excelテンプレート」を標準同梱。
+
+      <p className="border-t border-white/[0.06] pt-8 text-center text-sm leading-relaxed text-zinc-400 md:text-left">
+        ※ CSV一括取り込み用の「xolve専用・高機能Excelテンプレート」を標準同梱。
       </p>
     </section>
   );

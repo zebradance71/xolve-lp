@@ -1,77 +1,74 @@
-import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import { Check, ChevronRight } from "lucide-react";
 
-type LpHeroSectionProps = {
-  onScrollToPurchase: () => void;
-};
+const trustItems = ["凍結リスクに配慮", "シミュレーションで安心", "ローカルで安全管理"] as const;
 
-export function LpHeroSection({ onScrollToPurchase }: LpHeroSectionProps) {
+export function LpHeroSection() {
   return (
-    <section data-animate="hero" className="space-y-8 text-center">
-      <div className="flex justify-end">
-        <Link
-          href="/mypage"
-          className="inline-flex h-10 items-center justify-center rounded-xl border border-zinc-700 px-5 text-sm font-semibold text-zinc-200 transition hover:border-[#06b6d4]/60 hover:text-white"
-        >
-          マイページ
-        </Link>
-      </div>
+    <section data-animate="hero" className="pt-2 md:pt-6">
+      <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-14 xl:gap-16">
+        <div className="min-w-0 space-y-7 text-left md:space-y-8">
+          <h1 className="font-black tracking-tight text-white">
+            <span className="block text-4xl leading-[1.08] sm:text-5xl md:text-6xl lg:text-[2.85rem] lg:leading-[1.06] xl:text-6xl">
+              <span className="block">X運用、</span>
+              <span className="block">放置で回る。</span>
+            </span>
+            <span className="mt-3 block text-lg font-semibold text-[#00C2D1] sm:text-xl md:text-2xl">
+              毎日の投稿作業、もうやめませんか？
+            </span>
+          </h1>
 
-      <div className="space-y-7">
-        <div className="flex flex-wrap items-center justify-center gap-2">
-          <Badge className="border-zinc-800 bg-black px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#06b6d4]">
-            freezeGuard
-          </Badge>
-          <Badge className="border-zinc-800 bg-black px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-300">
-            正規分布ブレ
-          </Badge>
-          <Badge className="border-zinc-800 bg-black px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-300">
-            導入後の24時間
-          </Badge>
+          <p className="inline-flex max-w-full rounded-full border border-white/15 bg-[#061525]/90 px-4 py-2 text-xs font-medium text-zinc-200 backdrop-blur-sm sm:text-sm">
+            複数アカウント運用・副業・運用代行に
+          </p>
+
+          <p className="max-w-xl text-base leading-relaxed text-zinc-300 md:text-lg">
+            投稿の作成・予約、スケジュール配信、AIによる下書きやリライトまで。xolve
+            が面倒な定型作業をまとめて肩代わりし、あなたは中身の判断に集中できます。
+          </p>
+
+          <ul className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-x-8 sm:gap-y-3">
+            {trustItems.map((label) => (
+              <li key={label} className="flex items-center gap-2 text-sm font-medium text-zinc-200">
+                <Check className="size-4 shrink-0 text-[#00C2D1]" strokeWidth={2.5} aria-hidden />
+                {label}
+              </li>
+            ))}
+          </ul>
+
+          <div>
+            <a
+              href="#purchase"
+              className="inline-flex h-14 w-full max-w-md items-center justify-center gap-2 rounded-xl bg-[#00C2D1] px-8 text-base font-bold text-[#000B18] shadow-[0_0_36px_rgba(0,194,209,0.35)] transition hover:bg-[#3fe8f5] sm:w-auto"
+            >
+              今すぐ自動化する
+              <ChevronRight className="size-5" aria-hidden />
+            </a>
+          </div>
         </div>
 
-        <h1 className="mx-auto flex w-full max-w-5xl flex-col items-center gap-1 font-black tracking-tight md:gap-2">
-          <span className="text-center text-5xl leading-[1.02] md:text-7xl">凍結を、過去にする。</span>
-          <span className="mx-auto flex max-w-full flex-wrap items-center justify-center gap-x-1.5 gap-y-1 px-2 text-center leading-[1.12] text-zinc-100 [font-size:clamp(1rem,5.5vw+0.65rem,3.75rem)] md:gap-x-2 md:gap-y-0 md:px-3 md:leading-none lg:flex-nowrap lg:whitespace-nowrap">
-            <span className="translate-y-[0.02em]">「正規分布ブレ」</span>
-            <span className="text-[0.84em] leading-[1.12] md:text-[0.88em] md:leading-[1.14]">が生む、揺るぎない自動化。</span>
-          </span>
-        </h1>
-
-        <p className="mx-auto max-w-3xl text-base font-normal leading-relaxed text-zinc-500 md:text-lg md:leading-relaxed">
-          <span className="font-semibold text-zinc-300">freezeGuard</span>
-          で暴走を抑え、
-          <span className="font-semibold text-zinc-300"> 正規分布ブレ</span>
-          で人間らしい間隔を再現。
-          土日の仕込みから平日夜の5分チェックまで、
-          <span className="font-semibold text-zinc-300">導入後の24時間タイムライン</span>
-          として設計されています。
-        </p>
-      </div>
-
-      <div className="relative mx-auto w-full max-w-5xl">
-        <div className="relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 p-2 shadow-[0_40px_100px_rgba(0,0,0,0.65)]">
-          <img
-            src="/images/app-ui.png"
-            alt="xolve アプリUI"
-            width={1365}
-            height={768}
-            className="h-auto w-full rounded-xl"
-            decoding="async"
-            fetchPriority="high"
+        <div className="relative min-w-0">
+          <div
+            className="pointer-events-none absolute -inset-6 -z-10 rounded-[2rem] opacity-90 blur-2xl md:-inset-10"
+            style={{
+              background:
+                "radial-gradient(ellipse at 50% 40%, rgba(0, 194, 209, 0.22) 0%, transparent 65%)",
+            }}
+            aria-hidden
           />
+          <div className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[#061525]/80 p-2 shadow-[0_24px_80px_rgba(0,0,0,0.45),0_0_1px_rgba(0,194,209,0.25)_inset] lg:rounded-3xl lg:p-2.5">
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-[#0a1628] lg:aspect-[16/10] lg:rounded-2xl">
+              <Image
+                src="/images/lp-hero-white-v2.png"
+                alt="xolve ダッシュボードのモックアップ"
+                fill
+                className="object-cover object-left-top"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
+              />
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div className="flex flex-wrap items-center justify-center gap-3">
-        <Button
-          type="button"
-          onClick={onScrollToPurchase}
-          className="h-12 rounded-xl bg-cyan-500 px-8 text-sm font-bold text-black shadow-[0_0_25px_rgba(6,182,212,0.55)] transition hover:bg-cyan-400"
-        >
-          今すぐ購入する
-        </Button>
       </div>
     </section>
   );
