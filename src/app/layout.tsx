@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SupabaseAuthFragmentRedirect } from "@/components/auth/SupabaseAuthFragmentRedirect";
+import { lpMetadata } from "@/lib/lpSocialMetadata";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,29 +14,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://xolve-lp.vercel.app"),
-  title: "xolve | 買い切りライセンス",
-  description: "xolve 販促LP",
-  openGraph: {
-    type: "website",
-    title: "XOLVE",
-    description: "X運用を、手作業から解放する。",
-    images: [
-      {
-        url: "/og/xolve-og.png?v=3",
-        width: 1200,
-        height: 630,
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "XOLVE",
-    description: "X運用を、手作業から解放する。",
-    images: ["/og/xolve-og.png?v=3"],
-  },
-};
+export const metadata = lpMetadata("/");
 
 export default function RootLayout({
   children,
