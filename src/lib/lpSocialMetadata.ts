@@ -2,10 +2,15 @@ import type { Metadata } from "next";
 
 const SITE = new URL("https://xolve-lp.vercel.app");
 
+type LpMetadataOptions = {
+  /** 共有専用URLなど、検索に載せたくないページ向け */
+  noindex?: boolean;
+};
+
 /**
  * LP の OGP / Twitter Card。pathname は og:url 用（X が URL 単位でキャッシュするため /share など別パスでも再利用）。
  */
-export function lpMetadata(pathname: string): Metadata {
+export function lpMetadata(pathname: string, options?: LpMetadataOptions): Metadata {
   const path = pathname.startsWith("/") ? pathname : `/${pathname}`;
   const canonical = new URL(path, SITE).toString();
 
@@ -13,6 +18,7 @@ export function lpMetadata(pathname: string): Metadata {
     metadataBase: SITE,
     title: "xolve | 買い切りライセンス",
     description: "xolve 販促LP",
+    ...(options?.noindex ? { robots: { index: false, follow: true } as const } : {}),
     openGraph: {
       type: "website",
       url: canonical,
